@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\User;
+
 class UserService
 {
     /**
@@ -9,15 +11,15 @@ class UserService
      */
     public function all()
     {
-        //
+        return User::all();
     }
 
     /**
      * Cria um novo registro.
      */
-    public function create(array $data)
+    public function create(array $data): void
     {
-        //
+       User::create($data);
     }
 
     /**
@@ -25,7 +27,7 @@ class UserService
      */
     public function find(int|string $id)
     {
-        //
+        return User::find($id);
     }
 
     /**
@@ -33,7 +35,7 @@ class UserService
      */
     public function update(int|string $id, array $data)
     {
-        //
+        User::find($id)->update($data);
     }
 
     /**
@@ -41,6 +43,6 @@ class UserService
      */
     public function delete(int|string $id)
     {
-        //
+        User::find($id)->delete();
     }
 }
