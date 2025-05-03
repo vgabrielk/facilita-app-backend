@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Usuários')
+@section('title', 'Users')
 
-@section('header', 'Usuários')
+@section('header', 'Users')
 
 @section('content')
     @if (session('success'))

@@ -10,6 +10,7 @@
     <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
 
+    <script src="{{ asset('vendor/bladewind/js/bladewind-ui.min.js') }}"></script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
@@ -23,8 +24,8 @@
             <h1 class="text-xl font-bold">@yield('header', 'Facilita')</h1>
            <div class="flex items-center gap-4">
                <a href="{{route('users.view')}}" >Users</a>
-               <a href="{{route('users.view')}}" >Genres</a>
-               <a href="{{route('users.view')}}" >Books</a>
+               <a href="{{route('genres.view')}}" >Genres</a>
+               <a href="{{route('books.view')}}" >Books</a>
            </div>
 
         </div>
