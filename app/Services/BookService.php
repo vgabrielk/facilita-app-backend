@@ -14,6 +14,11 @@ class BookService
         return Book::all();
     }
 
+    public function paginate(int $limit = 10)
+    {
+        return Book::paginate($limit);
+    }
+
     /**
      * Cria um novo registro.
      */
@@ -47,6 +52,12 @@ class BookService
      */
     public function delete(int|string $id)
     {
-        return Book::find($id)->delete();
+        return Book::findOrFail($id)->delete();
+    }
+
+    public function changeStatusToBorrowed(Book $book)
+    {
+        $book['situation'] = 'borrowed';
+        $book->save();
     }
 }

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookRequest;
 use App\Models\Genre;
 use App\Services\BookService;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Traits\HandlesExecution;
 
 class BookController extends Controller
 {
+    use HandlesExecution;
     protected BookService $bookService;
 
     public function __construct(BookService $bookService)
@@ -19,7 +20,6 @@ class BookController extends Controller
     public function view()
     {
         $books = $this->bookService->all();
-        $genres = Genre::all();
         return view('books.view', compact('books'));
     }
 
@@ -32,21 +32,16 @@ class BookController extends Controller
     public function store(BookRequest $request)
     {
         $validated = $request->validated();
-        Log::info($validated);
-
-        try {
+        return $this->handleExecution(function () use ($validated) {
             $this->bookService->create($validated);
-            return redirect()->route('books.view')->with('success', 'Book created successfully!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Error: ' . $e->getMessage());
-        }
+        }, 'Livro criado com sucesso!','books.view');
     }
 
     public function edit(int $id)
     {
         $book = $this->bookService->find($id);
         if (!$book) {
-            return redirect()->route('books.view')->with('error', 'Book not found.');
+            return redirect()->route('books.view')->with('error', 'Livro não encontrado!');
         }
 
         return view('books.edit', compact('book'));
@@ -55,22 +50,18 @@ class BookController extends Controller
     public function update(BookRequest $request, int $id)
     {
         $validated = $request->validated();
-
-        try {
+        return $this->handleExecution(function () use ($validated, $id) {
             $this->bookService->update($id, $validated);
-            return redirect()->route('books.view')->with('success', 'Book updated successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Error: ' . $e->getMessage());
-        }
+        }, 'Livro atualizado com sucesso!', 'books.view');
     }
+
+
 
     public function destroy(int $id)
     {
-        try {
+        return $this->handleExecution(function () use ($id) {
             $this->bookService->delete($id);
-            return redirect()->route('books.view')->with('success', 'Book deleted successfully.');
-        } catch (\Exception $e) {
-            return redirect()->route('books.view')->with('error', 'Error' . $e->getMessage());
-        }
+        }, 'Livro deletado com sucesso!', 'books.view');
     }
+
 }

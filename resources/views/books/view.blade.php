@@ -5,40 +5,32 @@
 @section('header', 'Books')
 
 @section('content')
-    @if (session('success'))
-        <x-bladewind::alert type="success" class="mb-4">
-            {{ session('success') }}
-        </x-bladewind::alert>
-    @endif
+    <div class="container mx-auto p-6">
+        <x-session-success />
+        <x-session-error />
+        <div class="mb-6">
+            <a href="{{ route('books.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                Criar livro
+            </a>
+        </div>
 
-    @if (session('error'))
-        <x-bladewind::alert type="error" class="mb-4">
-            {{ session('error') }}
-        </x-bladewind::alert>
-    @endif
-    <x-bladewind::button onclick="window.location.href='{{ route('books.create') }}'" class="mb-4" >Create book</x-bladewind::button>
-    <x-bladewind::table striped="true"
-                        divider="thin"
-                        has_border="true"
-    >
-        <x-slot name="header">
-            <th>Registration Number</th>
-            <th>Name</th>
-            <th>Author</th>
-            <th>Situation</th>
-            <th>Actions</th>
-        </x-slot>
-        @foreach($books as $book)
-            <tr>
-                <td>{{$book->registration_number}}</td>
-                <td>{{$book->name}}</td>
-                <td>{{$book->author}}</td>
-                <td class="uppercase">{{$book->situation}}</td>
-                <td class="flex gap-2">
-                    <x-bladewind::button.circle icon="pencil" outline="true" class="p-2 rounded" onclick="window.location.href='{{ route('books.edit', $book->id) }}'">
-                    </x-bladewind::button.circle>
-                </td>
-            </tr>
-        @endforeach
-    </x-bladewind::table>
+        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+            <x-table
+                :headers="['Número de registro', 'Nome', 'Autor', 'Situação', 'Gênero']"
+                :rows="$books->map(function ($book) {
+                 return [
+                     'id' => $book->id,
+                     'cells' => [
+                         $book->registration_number,
+                         $book->name,
+                         $book->author,
+                         \App\Enums\SituationEnum::from($book->situation)->label(),
+                         \App\Enums\GenreEnum::from($book->genre->name)->label()
+                     ]
+                 ];
+             })"
+                :editRoute="'books.edit'"
+            />
+        </div>
+    </div>
 @endsection

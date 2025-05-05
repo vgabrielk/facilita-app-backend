@@ -33,7 +33,12 @@ class BookRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'genre_id.required' => 'The genre field is required.',
+        'name.required' => 'O nome do livro é obrigatório.',
+        'author.required' => 'O autor do livro é obrigatório.',
+        'registration_number.required' => 'O número de registro do livro é obrigatório.',
+        'situation.required' => 'A situação do livro é obrigatória.',
+        'genre_id.required' => 'O campo gênero é obrigatório.',
+        'genre_id.exists' => 'O gênero selecionado não existe.',
         ];
     }
 }
