@@ -1,2 +1,10 @@
 @import "tailwindcss/preflight";
 @import "tailwindcss/utilities";
+input[disabled],
+select[disabled],
+textarea[disabled] {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    cursor: not-allowed;
+    border-color: #d1d5db;
+}
