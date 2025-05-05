@@ -5,17 +5,15 @@
 @section('header', 'Books')
 
 @section('content')
-    <x-bladewind::card>
-        <x-bladewind::listview>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <ul class="space-y-4">
             @foreach($genres as $genre)
-            <x-bladewind::listview.item>
-                <div>
+                <li class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
                     <div class="text-sm font-medium text-slate-900">
                         {{$genre->name}}
                     </div>
-                </div>
-            </x-bladewind::listview.item>
+                </li>
             @endforeach
-        </x-bladewind::listview>
-    </x-bladewind::card>
+        </ul>
+    </div>
 @endsection
