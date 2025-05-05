@@ -19,7 +19,8 @@ class BookController extends Controller
 
     public function view()
     {
-        $books = $this->bookService->all();
+        $genreId = request('genre');
+        $books = $this->bookService->filteredByGenre($genreId);
         return view('books.view', compact('books'));
     }
 

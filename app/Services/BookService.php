@@ -13,6 +13,16 @@ class BookService
     {
         return Book::all();
     }
+    public function filteredByGenre($genreId = null)
+    {
+        $query = Book::query();
+
+        if ($genreId) {
+            $query->where('genre_id', $genreId);
+        }
+
+        return $query->get();
+    }
 
     public function paginate(int $limit = 10)
     {
