@@ -1,42 +1,35 @@
 @extends('layouts.app')
 
-@section('title', 'Users')
+@section('title', 'Usuários')
 
-@section('header', 'Users')
+@section('header', 'Usuários')
 
 @section('content')
-    @if (session('success'))
-        <x-bladewind::alert type="success" class="mb-4">
-            {{ session('success') }}
-        </x-bladewind::alert>
-    @endif
+    <div class="container mx-auto p-6">
+        <x-session-success />
+        <x-session-error />
+        <div class="mb-6">
+            <a href="{{ route('users.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                Criar usuário
+            </a>
+        </div>
 
-    @if (session('error'))
-        <x-bladewind::alert type="error" class="mb-4">
-            {{ session('error') }}
-        </x-bladewind::alert>
-    @endif
-    <x-bladewind::button onclick="window.location.href='{{ route('users.create') }}'" class="mb-4" >Create user</x-bladewind::button>
-        <x-bladewind::table striped="true"
-                            divider="thin"
-                            has_border="true"
-        >
-            <x-slot name="header">
-                <th>Registration Number</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </x-slot>
-    @foreach($users as $user)
-            <tr>
-                <td>{{$user->registration_number}}</td>
-                <td>{{$user->name}}</td>
-                <td>{{$user->email}}</td>
-                <td class="flex gap-2">
-                    <x-bladewind::button.circle icon="pencil" outline="true" class="p-2 rounded" onclick="window.location.href='{{ route('users.edit', $user->id) }}'">
-                    </x-bladewind::button.circle>
-                </td>
-            </tr>
-    @endforeach
-        </x-bladewind::table>
+        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+            <x-table
+            :headers="['Número de cadastro', 'Nome', 'Email']"
+            :rows="$users->map(function ($user) {
+             return [
+                 'id' => $user->id,
+                 'cells' => [
+                     $user->registration_number,
+                     $user->name,
+                     $user->email
+                 ]
+             ];
+         })"
+         :editRoute="'users.edit'"
+            />
+
+        </div>
+    </div>
 @endsection

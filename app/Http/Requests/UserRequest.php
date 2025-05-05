@@ -25,9 +25,19 @@ class UserRequest extends FormRequest
             'name' => 'required',
             'registration_number' => 'required',
         ];
-        
+
         $this->isMethod('post') ? $rules['email'] = 'required|email|unique:users,email' : $rules['email'] = 'required|email|unique:users,email,' . $this->route('id');
 
         return $rules;
+    }
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'O nome é obrigatório.',
+            'registration_number.required' => 'O número de cadastro é obrigatório.',
+            'email.required' => 'O e-mail é obrigatório.',
+            'email.email' => 'O e-mail deve ser um endereço válido.',
+            'email.unique' => 'Este e-mail já está em uso.',
+        ];
     }
 }

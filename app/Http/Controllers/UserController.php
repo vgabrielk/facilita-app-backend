@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\HandlesExecution;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
-use App\Models\User;
 
 class UserController extends Controller
 {
+    use HandlesExecution;
+
     protected UserService $userService;
 
     public function __construct(UserService $userService)
@@ -30,19 +32,20 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        try {
-            $this->userService->create($validated);
-            return redirect()->route('users.view')->with('success', 'User created successfully!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Error: ' . $e->getMessage());
-        }
+        return $this->handleExecution(
+            function () use ($validated) {
+                $this->userService->create($validated);
+            },
+            'Usuário criado com sucesso!',
+            'users.view'
+        );
     }
 
     public function edit(int $id)
     {
         $user = $this->userService->find($id);
         if (!$user) {
-            return redirect()->route('users.view')->with('error', 'User not found.');
+            return redirect()->route('users.view')->with('error', 'Usuário não encontrado!');
         }
 
         return view('users.edit', compact('user'));
@@ -52,21 +55,23 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        try {
-            $this->userService->update($id, $validated);
-            return redirect()->route('users.view')->with('success', 'User updated successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Error: ' . $e->getMessage());
-        }
+        return $this->handleExecution(
+            function () use ($id, $validated) {
+                $this->userService->update($id, $validated);
+            },
+            'Usuário atualizado com sucesso!',
+            'users.view'
+        );
     }
 
     public function destroy(int $id)
     {
-        try {
-            $this->userService->delete($id);
-            return redirect()->route('users.view')->with('success', 'User deleted successfully.');
-        } catch (\Exception $e) {
-            return redirect()->route('users.view')->with('error', 'Error' . $e->getMessage());
-        }
+        return $this->handleExecution(
+            function () use ($id) {
+                $this->userService->delete($id);
+            },
+            'Usuário deletado com sucesso!',
+            'users.view'
+        );
     }
 }

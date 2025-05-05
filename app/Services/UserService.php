@@ -13,6 +13,10 @@ class UserService
     {
         return User::all();
     }
+    public function paginate(int $limit = 10)
+    {
+        return User::paginate($limit);
+    }
 
     /**
      * Cria um novo registro.
