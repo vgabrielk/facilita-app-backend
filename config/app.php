@@ -26,9 +26,6 @@ return [
     |
     */
 
-    'aliases' => [
-        'Translator' => Illuminate\Support\Facades\Translator::class,
-    ],
 
     'env' => env('APP_ENV', 'production'),
 
