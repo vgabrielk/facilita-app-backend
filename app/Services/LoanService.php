@@ -2,14 +2,16 @@
 
 namespace App\Services;
 
-class LoansService
+use App\Models\Loan;
+
+class LoanService
 {
     /**
      * Retorna todos os registros.
      */
     public function all()
     {
-        //
+        return Loan::all();
     }
 
     /**
@@ -17,7 +19,8 @@ class LoansService
      */
     public function create(array $data)
     {
-        //
+        $loan = Loan::create($data);
+        return $loan;
     }
 
     /**
@@ -33,9 +36,12 @@ class LoansService
      */
     public function update(int|string $id, array $data)
     {
-        //
-    }
+        $loan = Loan::findOrFail($id);
+        $loan->update($data);
+        $loan->save();
 
+        return $loan;
+    }
     /**
      * Remove um registro.
      */
