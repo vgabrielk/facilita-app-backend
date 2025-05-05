@@ -1,7 +1,7 @@
 
-# 📚 Facilita - Sistema de Empréstimos de Livros
+# 📚 Sistema de Empréstimos de Livros
 
-Facilita é uma aplicação web desenvolvida em Laravel para gerenciar empréstimos de livros. Permite o cadastro de usuários, livros, gêneros e o controle completo dos empréstimos com datas, status e muito mais.
+Aplicação web desenvolvida em Laravel para gerenciar empréstimos de livros. Permite o cadastro de usuários, livros, gêneros e o controle completo dos empréstimos com datas, status e muito mais.
 
 ## ⚙️ Tecnologias
 
