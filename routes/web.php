@@ -3,10 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\GenresController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\LoanController;
 
 Route::get('/', function () {
-    return view('welcome');
+    $loanCount = \App\Models\Loan::count();
+    $bookCount = \App\Models\Book::count();
+    $userCount = \App\Models\User::count();
+
+    return view('welcome', compact('loanCount', 'bookCount', 'userCount'));
 });
 
 
@@ -30,7 +35,15 @@ Route::controller(BookController::class)->prefix('books')->name('books.')->group
     Route::post('', [BookController::class, 'store'])->name('store');
 });
 
+Route::controller(LoanController::class)->prefix('loans')->name('loans.')->group(function () {
+    Route::get('/{book}/loan', [LoanController::class, 'view'])->name('loan');
+    Route::post('/loan', [LoanController::class, 'store'])->name('store');
+    Route::get('', [LoanController::class, 'index'])->name('index');
+    Route::get('/edit/{loan}', [LoanController::class, 'edit'])->name('edit');
+    Route::put('/update/{loan}', [LoanController::class, 'update'])->name('update');
 
-Route::controller(GenresController::class)->prefix('genres')->name('genres.')->group(function () {
-    Route::get('', [GenresController::class, 'view'])->name('view');
+
+});
+Route::controller(GenreController::class)->prefix('genres')->name('genres.')->group(function () {
+    Route::get('', [GenreController::class, 'view'])->name('view');
 });
